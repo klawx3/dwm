@@ -1,5 +1,5 @@
 /* See LICENSE file for copyright and license details. */
-
+#include <X11/XF86keysym.h> // for media keys usage
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -14,7 +14,7 @@ static const unsigned int gappov    = 10;       /* vert outer gap between window
 static const int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const int user_bh            = 5;        /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
+static const int user_bh            = 15;        /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
 static const char *fonts[]          = { "Source Code Pro:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
 static const char col_gray1[]       = "#222222";
@@ -38,7 +38,7 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Brave-browser",  NULL,       NULL,       1 << 8,       0,           -1 },
+//	{ "Brave-browser",  NULL,       NULL,       1 << 8,       0,           -1 },
 };
 
 /* layout(s) */
@@ -72,8 +72,6 @@ static const char *browser[]  = { "brave", NULL };
 static const char *discord[]  = { "discord", NULL };
 static const char *spotify[]  = { "spotify", NULL };
 static const char *filemanager[]  = { "pcmanfm", NULL };
-
-
 
 
 static Key keys[] = {
@@ -134,6 +132,19 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+
+	// sound control
+	
+	{ 0, XF86XK_AudioMute,		spawn,	   SHCMD("pactl set-sink-mute @DEFAULT_SINK@  toggle") },
+	{ 0, XF86XK_AudioRaiseVolume,	spawn,	   SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5%") },
+	{ 0, XF86XK_AudioLowerVolume,	spawn,	   SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5%") },
+	
+	{ 0, XF86XK_AudioPrev,		spawn,	   SHCMD("playerctl previous") },
+	{ 0, XF86XK_AudioNext,		spawn,	   SHCMD("playerctl next") },
+	{ 0, XF86XK_AudioPlay,		spawn,	   SHCMD("playerctl play") },
+	{ 0, XF86XK_AudioStop,		spawn,	   SHCMD("playerctl stop") },
+
+
 };
 
 /* button definitions */
